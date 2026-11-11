@@ -1,10 +1,40 @@
 import { Stack, useLocalSearchParams } from "expo-router";
-import { StyleSheet, Text, View } from "react-native";
-import { events } from "../../src/data/events";
+import {
+  ActivityIndicator,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
+import { useEvents } from "../../src/hooks/useEvents";
 
 export default function EventDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const event = events.find((e) => e.id === Number(id));
+  const { data, isPending, isError, error, refetch } = useEvents();
+  const event = (data ?? []).find((e) => e.id === Number(id));
+
+  if (isPending) {
+    return (
+      <View style={styles.container}>
+        <Stack.Screen options={{ title: "Loading events" }} />
+        <ActivityIndicator />
+        <Text style={styles.center}>Loading events</Text>
+      </View>
+    );
+  }
+
+  if (isError) {
+    return (
+      <View style={styles.container}>
+        <Stack.Screen options={{ title: "Error" }} />
+        <Text style={styles.errorTitle}>Could not load events</Text>
+        <Text style={styles.errorMsg}>{error.message}</Text>
+        <Pressable onPress={() => refetch()} style={styles.retryBtn}>
+          <Text style={styles.retryText}>Try again</Text>
+        </Pressable>
+      </View>
+    );
+  }
 
   if (!event) {
     return (
@@ -29,20 +59,25 @@ export default function EventDetailScreen() {
 
 const styles = StyleSheet.create({
   container: {
-  flex: 1,
-  backgroundColor: "#ffffff",
-  paddingHorizontal: 16,
-  paddingTop: 100, 
-  paddingBottom: 16,
+    flex: 1,
+    backgroundColor: "#ffffff",
+    paddingHorizontal: 16,
+    paddingTop: 100,
+    paddingBottom: 16,
   },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 16,
+  title: { fontSize: 24, fontWeight: "bold", marginBottom: 16 },
+  meta: { fontSize: 16, color: "#4b5563", marginBottom: 4 },
+  center: { textAlign: "center", marginTop: 16, color: "#4b5563" },
+  errorTitle: { fontSize: 18, fontWeight: "bold", color: "#b91c1c" },
+  errorMsg: { color: "#b91c1c", marginTop: 4, marginBottom: 12 },
+  retryBtn: {
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    backgroundColor: "#1d4ed8",
+    borderRadius: 8,
+    minHeight: 44,
+    justifyContent: "center",
+    alignSelf: "flex-start",
   },
-  meta: {
-    fontSize: 16,
-    color: "#4b5563",
-    marginBottom: 4,
-  },
+  retryText: { color: "#ffffff", fontWeight: "bold" },
 });
