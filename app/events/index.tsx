@@ -1,4 +1,5 @@
 import { router } from "expo-router";
+import { useSavedIds } from "../../src/hooks/useSavedIds";
 import { useState } from "react";
 import {
   ActivityIndicator,
@@ -14,7 +15,7 @@ import EventRow from "../../src/components/EventRow";
 
 export default function EventsScreen() {
   const { data, isPending, isError, error, refetch, isRefetching } = useEvents();
-  const [savedIds, setSavedIds] = useState<number[]>([]);
+  const { savedIds, setSavedIds, loaded } = useSavedIds();
   const [search, setSearch] = useState("");
 
   const filtered = (data ?? []).filter((e) =>
@@ -30,9 +31,9 @@ export default function EventsScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.info}>
-          Long-press an event to save it. Saved: {savedIds.length}
-        </Text>
+       <Text style={styles.info}>
+        Swipe or long-press an event to save it. Saved: {savedIds.length}
+       </Text>
         <TextInput
           style={styles.search}
           placeholder="Search events"
@@ -62,7 +63,7 @@ export default function EventsScreen() {
             <EventRow
               event={item}
               onPress={() => router.push(`/events/${item.id}`)}
-              onLongPress={() => toggleSaved(item.id)}
+              onToggleSaved={() => toggleSaved(item.id)}
               saved={savedIds.includes(item.id)}
             />
           )}

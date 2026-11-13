@@ -1,4 +1,5 @@
 import { Stack, useLocalSearchParams } from "expo-router";
+import HolidayNote from "../../src/components/HolidayNote";
 import {
   ActivityIndicator,
   Pressable,
@@ -51,6 +52,7 @@ export default function EventDetailScreen() {
       <Stack.Screen options={{ title: event.title }} />
       <Text style={styles.title}>{event.title}</Text>
       <Text style={styles.meta}>{event.date}</Text>
+      <HolidayNote date={event.date} />
       <Text style={styles.meta}>{event.place}</Text>
       <Text style={styles.meta}>Seats: {event.seats}</Text>
     </View>
