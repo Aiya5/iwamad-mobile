@@ -1,20 +1,20 @@
 import { useEffect, useState } from "react";
-import { loadSavedIds, saveIds } from "../lib/savedStorage";
+import { loadSavedIds, storeSavedIds } from "../lib/savedStorage";
 
 export function useSavedIds() {
   const [savedIds, setSavedIds] = useState<number[]>([]);
-  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    loadSavedIds().then((ids) => {
-      setSavedIds(ids);
-      setLoaded(true);
-    });
+    loadSavedIds().then(setSavedIds);
   }, []);
 
-  useEffect(() => {
-    if (loaded) saveIds(savedIds);
-  }, [savedIds, loaded]);
+  function toggleSaved(id: number) {
+    const next = savedIds.includes(id)
+      ? savedIds.filter((x) => x !== id)
+      : [...savedIds, id];
+    setSavedIds(next);
+    storeSavedIds(next);
+  }
 
-  return { savedIds, setSavedIds, loaded };
+  return { savedIds, toggleSaved };
 }

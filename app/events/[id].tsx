@@ -1,13 +1,7 @@
 import { Stack, useLocalSearchParams } from "expo-router";
-import HolidayNote from "../../src/components/HolidayNote";
-import {
-  ActivityIndicator,
-  Pressable,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { ActivityIndicator, Pressable, StyleSheet, Text, View } from "react-native";
 import { useEvents } from "../../src/hooks/useEvents";
+import HolidayNote from "../../src/components/HolidayNote";
 
 export default function EventDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -60,26 +54,12 @@ export default function EventDetailScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#ffffff",
-    paddingHorizontal: 16,
-    paddingTop: 100,
-    paddingBottom: 16,
-  },
+  container: { flex: 1, backgroundColor: "#ffffff", paddingHorizontal: 16, paddingTop: 100, paddingBottom: 16 },
   title: { fontSize: 24, fontWeight: "bold", marginBottom: 16 },
   meta: { fontSize: 16, color: "#4b5563", marginBottom: 4 },
   center: { textAlign: "center", marginTop: 16, color: "#4b5563" },
   errorTitle: { fontSize: 18, fontWeight: "bold", color: "#b91c1c" },
   errorMsg: { color: "#b91c1c", marginTop: 4, marginBottom: 12 },
-  retryBtn: {
-    paddingVertical: 12,
-    paddingHorizontal: 24,
-    backgroundColor: "#1d4ed8",
-    borderRadius: 8,
-    minHeight: 44,
-    justifyContent: "center",
-    alignSelf: "flex-start",
-  },
+  retryBtn: { paddingVertical: 12, paddingHorizontal: 24, backgroundColor: "#1d4ed8", borderRadius: 8, minHeight: 44, justifyContent: "center", alignSelf: "flex-start" },
   retryText: { color: "#ffffff", fontWeight: "bold" },
 });

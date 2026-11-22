@@ -13,6 +13,6 @@ export async function loadSavedIds(): Promise<number[]> {
   }
 }
 
-export async function saveIds(ids: number[]): Promise<void> {
+export async function storeSavedIds(ids: number[]): Promise<void> {
   await AsyncStorage.setItem(SAVED_KEY, JSON.stringify(ids));
 }
