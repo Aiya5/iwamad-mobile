@@ -1,6 +1,7 @@
 import { Stack, useLocalSearchParams } from "expo-router";
 import { ActivityIndicator, Pressable, StyleSheet, Text, View } from "react-native";
 import { useEvents } from "../../src/hooks/useEvents";
+import ChatPanel from "../../src/components/ChatPanel";
 import HolidayNote from "../../src/components/HolidayNote";
 
 export default function EventDetailScreen() {
@@ -49,6 +50,7 @@ export default function EventDetailScreen() {
       <HolidayNote date={event.date} />
       <Text style={styles.meta}>{event.place}</Text>
       <Text style={styles.meta}>Seats: {event.seats}</Text>
+      <ChatPanel eventId={event.id} eventTitle={event.title} />
     </View>
   );
 }
